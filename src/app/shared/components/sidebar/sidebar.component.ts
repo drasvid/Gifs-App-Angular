@@ -17,4 +17,14 @@ export class SidebarComponent {
 
   }  
 
+
+  public searchTag(newTag:string):void{
+
+    this.gifService.searchTag(newTag);
+
+    console.log( newTag );
+
+
+  }
+
 }

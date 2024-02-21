@@ -6,7 +6,11 @@
 
     <div class="list group list-reset">
 
-        <button class="list-group-item list-goup-item-action text-light btn " *ngFor="let tag of tagHistory">
+        <button class="list-group-item list-goup-item-action text-light btn " 
+                *ngFor="let tag of tagHistory" 
+                (click)="searchTag(tag)">
+
+
             
             {{tag|titlecase}}
 

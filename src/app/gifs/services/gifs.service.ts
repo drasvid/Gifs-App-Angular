@@ -11,7 +11,12 @@ import { Gif, searchResponce } from '../interfaces/gifs.interfaces';
 export class GifsService {
 
 
-  constructor (private http:HttpClient){}
+  constructor (private http:HttpClient){
+
+    this.loadLocalStorage();
+
+
+  }
 
 
   private _tagsHistory:string[]=[]; 
@@ -25,7 +30,26 @@ export class GifsService {
   public gifList:Gif[]=[];
 
 
+  private saveLocaStorage():void{
 
+    // se transforma de una arreglo a un string por medio de json
+
+    localStorage.setItem('history',JSON.stringify(this.tagsHistory));
+
+
+  }
+
+  private loadLocalStorage():void{
+
+      if(!localStorage.getItem('history')) return;
+
+      this._tagsHistory=JSON.parse(localStorage.getItem('history')!);
+
+      const tag=this._tagsHistory[0]
+
+      this.searchTag(tag)
+
+  }
 
   
   public get tagsHistory() : string[] {
@@ -38,7 +62,7 @@ export class GifsService {
   private organizeHistory(tag:string){
 
 
-    const limitOfHistory=10;
+    // const limitOfHistory=10;
 
     if (this._tagsHistory.includes(tag)) {
       
@@ -59,6 +83,8 @@ export class GifsService {
 
     this._tagsHistory=this._tagsHistory.splice(0,10);
 
+    this.saveLocaStorage();
+
 
 
   }
@@ -70,13 +96,16 @@ export class GifsService {
 
     this._tagsHistory.unshift(tag);
 
-    console.log( this.tagsHistory );
+    this.saveLocaStorage();
+
+
+    // console.log( this.tagsHistory );
 
 
 
     const params=new HttpParams()
     .set('api_key', this.ApiKey)
-    .set('limit','10')
+    .set('limit','12')
     .set('q',tag)
 
     
@@ -88,7 +117,7 @@ export class GifsService {
 
       this.gifList=answer.data;
 
-      console.log( {gifs:this.gifList} );
+      // console.log( {gifs:this.gifList} );
     })
 
 

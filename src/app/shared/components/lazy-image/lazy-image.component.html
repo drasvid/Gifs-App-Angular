@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center">
+
+
+    <!-- (load) especifica que pasa cuando la imagen cargue, se le iguala a una funcion va a ser definida en el .ts -->
+
+    <img class="card-img-top animate__animated animate__fadeIn" 
+        [src]="url" 
+        [alt]=""
+        (load)="onLoad()"      
+        [ngStyle]="{'display': hasLoaded ? '' :'none'}">
+    
+    <!-- Si hasloaded es verdadero, no hacer nada, else quitar la imagen -->
+
+    <img *ngIf="!hasLoaded"  
+        src="assets/loader.svg"
+        alt="">
+
+
+</div>
